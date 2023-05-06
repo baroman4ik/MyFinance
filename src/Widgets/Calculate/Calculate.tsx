@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addExpense, addIncome } from './CalculateSlice';
-import {Select, TextInput, Button, Autocomplete} from '@mantine/core';
+import {Select, TextInput, Button} from '@mantine/core';
 import { nanoid } from '@reduxjs/toolkit'
-// import { useMantineTheme } from '@mantine/core';
 import {DatePicker} from "@mantine/dates";
 
 const categories = [
@@ -35,7 +34,6 @@ const FinanceForm: React.FC = () => {
     const [category, setCategory] = useState(categories[0].value);
     const [date, setDate] = useState<Date | null>(new Date());
     const [amount, setAmount] = useState('');
-    // const theme = useMantineTheme();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();

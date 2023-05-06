@@ -30,7 +30,7 @@ const ExpensesChart: React.FC<ExpensesChartProps> = ({ series }) => {
                     day: 'dd',
                     hour: 'HH:mm',
                 },
-                formatter: function(value, timestamp, index) {
+                formatter: function(value, timestamp) {
                     const months = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
                     const date = timestamp !== undefined ? new Date(timestamp) : new Date();
                     return months[date.getMonth()];
