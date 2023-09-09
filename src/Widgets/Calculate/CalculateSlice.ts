@@ -8,12 +8,15 @@ interface FinanceState {
 
 
 export interface Transaction {
-    id: string;
-    name: string;
     amount: number;
     category: string;
     date: string;
+    id: string;
+    name: string;
+    type: TransTypes
 }
+
+export type TransTypes = 'income' | 'expense'
 
 const initialState: FinanceState = {
     incomes: [],
@@ -31,8 +34,13 @@ const financeSlice = createSlice({
         addExpense({expenses}, action: PayloadAction<Transaction>) {
             expenses.push(action.payload);
         },
-        deleteTransaction({expenses}, action: PayloadAction<string>) {
-            // expenses.push(action.payload);
+
+        deleteIncome(state, action: PayloadAction<string>) {
+            state.incomes = state.incomes.filter(el => el.id !== action.payload);
+        },
+        deleteExpense(state, action: PayloadAction<string>) {
+            state.expenses = state.expenses.filter(el => el.id !== action.payload);
+
         },
         setEditingTransaction(state, action: PayloadAction<Transaction | null>) {
             state.editingTransaction = action.payload;
@@ -41,7 +49,7 @@ const financeSlice = createSlice({
     },
 });
 
-export const { addIncome, addExpense, deleteTransaction, setEditingTransaction } = financeSlice.actions;
+export const { addIncome, addExpense, deleteExpense, deleteIncome, setEditingTransaction } = financeSlice.actions;
 
 export const selectTransactions = createSelector(
     (state: { calculateSlice: FinanceState }) => state.calculateSlice.incomes.concat(state.calculateSlice.expenses),
@@ -49,9 +57,48 @@ export const selectTransactions = createSelector(
         transactions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 );
 
+export const selectIncomes = (state: { calculateSlice: { incomes: Transaction[]; }; }) => state.calculateSlice.incomes.map((income) => ({
+    x: income.date,
+    y: income.amount
+}))
+export const selectExpense = (state: { calculateSlice: { expenses: Transaction[]; }; }) => state.calculateSlice.expenses.map((income) => ({
+    x: income.date,
+    y: income.amount
+}))
 
-export const selectIncomes = (state: { calculateSlice: { incomes: Transaction[]; }; }) => state.calculateSlice.incomes.map(el => ({x: el.date, y: el.amount}));
-export const selectExpense = (state: { calculateSlice: { expenses: Transaction[]; }; }) => state.calculateSlice.expenses.map(el => ({x: el.date, y: el.amount}));
+export const selectDiff = createSelector(
+  (state: { calculateSlice: FinanceState }) => state.calculateSlice.incomes.concat(state.calculateSlice.expenses),
+  (transactions: Transaction[]) => {
+      transactions.sort(function(a, b) {
+          return Date.parse(a.date) - Date.parse(b.date);
+      });
+
+      let balance = 0;
+      let result: any = [];
+
+// Расчет баланса и формирование результата
+      transactions.forEach(function(transaction) {
+          if (transaction.type === 'income') {
+              balance += parseFloat(transaction.name);
+          } else if (transaction.type === 'expense') {
+              balance -= parseFloat(transaction.name);
+          }
+
+          let transactionResult = {
+              x: transaction.date,
+              y: balance
+          };
+
+          result.push(transactionResult);
+      });
+      console.log(result)
+      return result
+  }
+
+);
 export const editingTransaction = (state: { calculateSlice: { editingTransaction: Transaction | null; }; }) => state.calculateSlice.editingTransaction;
 
 export default financeSlice.reducer;
+
+
+

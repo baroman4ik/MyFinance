@@ -1,0 +1,13 @@
+.calculate_form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    width: 300px;
+    height: 1000px;
+    gap: 8px 5px;
+}
+
+.mantine-Input-wrapper {
+    width: 260px !important;
+}

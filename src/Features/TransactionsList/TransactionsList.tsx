@@ -2,19 +2,21 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
     selectTransactions,
-    deleteTransaction,
     Transaction,
-    setEditingTransaction
+    setEditingTransaction, deleteExpense, deleteIncome
 } from '../../Widgets/Calculate/CalculateSlice';
-import { Button, Card, Text, Group } from '@mantine/core';
-
+import { Button, Text, Group } from '@mantine/core';
+import './TransactionsStyles.css'
 
 const TransactionsList: React.FC = () => {
     const dispatch = useDispatch();
     const transactions = useSelector(selectTransactions);
-
-    const handleDelete = (id: string) => {
-        dispatch(deleteTransaction(id));
+    console.log(transactions)
+    const handleDelete = (transaction: Transaction) => {
+        console.log(transaction)
+        transaction.type === 'income' ?
+        dispatch(deleteIncome(transaction.id)) :
+        dispatch(deleteExpense(transaction.id))
     };
 
     function onClickEdit(transaction: Transaction) {
@@ -22,31 +24,35 @@ const TransactionsList: React.FC = () => {
     }
 
     return (
-        <>
-            {transactions.map((transaction) => (
-                <Card key={transaction.id}>
-                    <Text>{transaction.name}</Text>
-                    <Text>{transaction.category}</Text>
-                    <Text>{transaction.date}</Text>
-                    <Text>{transaction.amount}</Text>
-                    <Group>
-                        <Button
+        <div className='transactions_block'>
+            <h3>Операции на счёте</h3>
+            <div className="transactions_container">
+                {transactions.map((transaction) => (
+                  <div className={`transaction ${transaction.type === "income" ? 'green' : 'red'}`} key={transaction.id}>
+                      <Text align={"center"} size={"xl"}>{transaction.name}</Text>
+                      <Text>Категория: {transaction.category}</Text>
+                      <Text>Дата: {transaction.date}</Text>
+                      <Text style={{marginBottom: "10px"}}>Сумма: {transaction.amount}</Text>
+                      <Group>
+                          <Button
                             variant="outline"
                             onClick={() => onClickEdit(transaction)}
-                        >
-                            Edit
-                        </Button>
-                        <Button
+                          >
+                              Edit
+                          </Button>
+                          <Button
                             color="red"
                             variant="outline"
-                            onClick={() => handleDelete(transaction.id)}
-                        >
-                            Delete
-                        </Button>
-                    </Group>
-                </Card>
-            ))}
-        </>
+                            onClick={() => handleDelete(transaction)}
+                          >
+                              Delete
+                          </Button>
+                      </Group>
+                  </div>
+                ))}
+            </div>
+        </div>
+
     );
 };
 

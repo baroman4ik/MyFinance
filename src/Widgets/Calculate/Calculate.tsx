@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addExpense, addIncome } from './CalculateSlice';
+import {addExpense, addIncome, Transaction, TransTypes} from './CalculateSlice';
 import {Select, TextInput, Button} from '@mantine/core';
 import { nanoid } from '@reduxjs/toolkit'
 import {DatePicker} from "@mantine/dates";
+import './CalculateStyles.css'
 
-const categories = [
+const categories: {label: string, value: string, type: TransTypes}[] = [
     { label: 'Salary', value: 'salary', type: 'income' },
     { label: 'Dividends', value: 'dividends', type: 'income' },
     { label: 'Rental Income', value: 'rental', type: 'income' },
@@ -35,14 +36,15 @@ const FinanceForm: React.FC = () => {
     const [date, setDate] = useState<Date | null>(new Date());
     const [amount, setAmount] = useState('');
 
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const financeItem = {
+        const financeItem: Transaction = {
             id: nanoid(),
             name,
             category,
-            type: categories.find(e => e.value === category)?.type,
+            type: categories.find(e => e.value === category)?.type as TransTypes,
             date: date?.toISOString() ?? '',
             amount: parseFloat(amount),
         };
@@ -60,7 +62,7 @@ const FinanceForm: React.FC = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="calculate_form">
             <TextInput
                 required
                 label="Name"
@@ -91,13 +93,15 @@ const FinanceForm: React.FC = () => {
                 value={amount}
                 onChange={(event) => setAmount(event.currentTarget.value)}
             />
+
             <Button
+
                 type='submit'
-                variant="outline"
-                color="blue"
+                variant="filled"
+                color="teal"
                 disabled={!name || !category || !date || !amount}
             >
-                Add
+                Добавить
             </Button>
         </form>
     );
