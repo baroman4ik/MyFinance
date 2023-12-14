@@ -232,7 +232,7 @@ const ExpensesChart: React.FC<ExpensesChartProps> = ({ seriesType = 'expenses', 
             options={getChartOptions()}
             series={getSeries()}
             type="bar"
-            width={700}
+            width={720}
             height={340}
         />
     );

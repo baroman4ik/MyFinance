@@ -7,6 +7,8 @@ import {SeriesType, TimePeriod} from "../Features/Expenses&IncomeChart/ExpensesC
 import CircularChart from "../Features/CircularChart/CircularChart";
 import {useSelector} from "react-redux";
 import {selectDiff, selectExpense, selectIncomes} from "../Widgets/Calculate/CalculateSlice";
+import CircularChartIncomes from "../Features/CircularChartIncomes/CircularChartIncomes";
+import CircularChartExpenses from "../Features/CircularChartExpenses/CircularChartExpenses";
 
 function App() {
   const diff = useSelector(selectDiff);
@@ -81,6 +83,12 @@ function App() {
             </div>
           <div className="chart-wrapper">
                 <CircularChart/>
+          </div>
+          <div className="chart-wrapper">
+            <CircularChartIncomes/>
+          </div>
+          <div className="chart-wrapper">
+            <CircularChartExpenses/>
           </div>
 
 

@@ -7,8 +7,11 @@ const CircularChart: React.FC = () => {
   const incomesData = useSelector(selectIncomes);
   const expensesData = useSelector(selectExpense);
 
+  const exp = expensesData.reduce((sum, item) => sum + item.y, 0)
+  const inc =  incomesData.reduce((sum, item) => sum + item.y, 0)
+
   const chartData = {
-    series: [incomesData.reduce((sum, item) => sum + item.y, 0), expensesData.reduce((sum, item) => sum + item.y, 0)],
+    series: [inc-exp, exp],
     options: {
       labels: ['Доходы', 'Расходы'],
       colors: ['#00ff00', '#00bfff']
