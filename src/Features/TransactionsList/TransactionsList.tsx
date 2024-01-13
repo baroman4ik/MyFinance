@@ -25,27 +25,28 @@ const TransactionsList: React.FC = () => {
 
     return (
         <div className='transactions_block'>
-            <h3>Операции на счёте</h3>
+            <h3>Операции на счету</h3>
             <div className="transactions_container">
-                {transactions.map((transaction) => (
+                {transactions.reverse().map((transaction) => (
                   <div className={`transaction ${transaction.type === "Доход" ? 'green' : 'red'}`} key={transaction.id}>
                       <Text align={"center"} size={"xl"}>{transaction.name}</Text>
                       <Text>Категория: {transaction.category}</Text>
                       <Text>Дата: {transaction.date}</Text>
+                      <Text>Счёт: {transaction.account}</Text>
                       <Text style={{marginBottom: "10px"}}>Сумма: {transaction.amount}</Text>
                       <Group>
                           <Button
                             variant="outline"
                             onClick={() => onClickEdit(transaction)}
                           >
-                              Edit
+                              Изменить
                           </Button>
                           <Button
                             color="red"
                             variant="outline"
                             onClick={() => handleDelete(transaction)}
                           >
-                              Delete
+                              Удалить
                           </Button>
                       </Group>
                   </div>

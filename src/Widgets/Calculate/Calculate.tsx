@@ -1,9 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import { useDispatch } from 'react-redux';
-import {addExpense, addIncome, Transaction, TransTypes} from './CalculateSlice';
-import {Select, TextInput, Button} from '@mantine/core';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+    addExpense,
+    addIncome,
+    selectAccountsForCalculate,
+    Transaction,
+    TransTypes
+} from './CalculateSlice';
+import {Select, TextInput, Button, SegmentedControl} from '@mantine/core';
 import { nanoid } from '@reduxjs/toolkit'
-import {DatePicker} from "@mantine/dates";
+import {DatePicker, DatePickerInput} from "@mantine/dates";
 import './CalculateStyles.css'
 
 export const incomeCategories: { label: string; value: string }[] = [
@@ -43,16 +49,20 @@ export const expenseCategories: { label: string; value: string }[] = [
 
 const FinanceForm: React.FC = () => {
     const dispatch = useDispatch();
+
+    const accounts = useSelector(selectAccountsForCalculate);
+
     const [type, setType] = useState<TransTypes>("Доход");
+    const [activeCard, setActiveCard] = useState<any>(accounts[0].value);
     const [name, setName] = useState('');
     const [date, setDate] = useState<Date | null>(new Date());
     const [amount, setAmount] = useState('');
 
     const activeCategories = type === "Доход" ? incomeCategories : expenseCategories;
     const [category, setCategory] = useState(activeCategories[0].value);
-useEffect(() => {
-    setCategory(activeCategories[0].value)
-}, [type])
+    useEffect(() => {
+        setCategory(activeCategories[0].value)
+    }, [type])
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -63,6 +73,7 @@ useEffect(() => {
             type,
             date: date?.toISOString() ?? '',
             amount: parseFloat(amount),
+            account: activeCard
         };
 
         if (financeItem.type === "Доход") {
@@ -80,48 +91,77 @@ useEffect(() => {
     return (
     <form onSubmit={handleSubmit} className="calculate_form">
         <div className="base-box">
-            <TextInput
-              required
-              label="Название"
-              placeholder="Enter name"
-              value={name}
-              onChange={(event) => setName(event.currentTarget.value)}
-            />
 
-            <Select
-              label="Доход/Расход"
 
-              placeholder="Enter Type"
+            <SegmentedControl
+
+              placeholder="Укажите тип операции"
               onChange={(event: "Расход" | "Доход") => setType(event)}
-
+              defaultValue={'Доход'}
               data={['Доход', 'Расход']}
+              radius="lg"
             />
+
             <Select
+              className="calculate_element"
+
               required
               label="Категория"
-              placeholder="Select category"
+              placeholder="Укажите категорию операции"
               data={activeCategories}
               value={category}
               onChange={(value: any) => setCategory(value)}
             />
+
+            <Select
+              className="calculate_element"
+              required
+              label="Счёт"
+              placeholder="Выберите счёт"
+              data={accounts}
+              value={activeCard}
+              onChange={(value: any) => setActiveCard(value)}
+            />
+
             <TextInput
+              className="calculate_element"
+
               required
               label="Сумма"
               type="number"
+              placeholder="Введите сумму операции"
               min={0}
-              step={0.01}
+              step={1}
               value={amount}
+              defaultValue={0}
               onChange={(event) => setAmount(event.currentTarget.value)}
+            />
+
+            <TextInput
+              className="calculate_element"
+
+              required
+              label="Название"
+              placeholder="Введите название операции"
+              value={name}
+              onChange={(event) => setName(event.currentTarget.value)}
+            />
+
+
+            <DatePickerInput
+              className="calculate_element"
+
+              label="Дата операции"
+              required
+              placeholder="Введите дату операции"
+              contextMenu="Date"
+              value={date}
+              onChange={(value: Date) => setDate(value as Date)}
             />
         </div>
 
-        <DatePicker
-          className="base-box"
-          contextMenu="Date"
-          placeholder="Select date"
-          value={date}
-          onChange={(value) => setDate(value as Date)}
-        />
+        {/* eslint-disable-next-line react/jsx-no-undef */}
+
 
 
         <Button

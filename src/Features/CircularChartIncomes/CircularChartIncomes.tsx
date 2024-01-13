@@ -1,10 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
-import {selectIncomes, selectIncomesNamesForCircular} from '../../Widgets/Calculate/CalculateSlice';
+import {
+  selectIncomesByCategory,
+  selectIncomesNamesForCircular
+} from '../../Widgets/Calculate/CalculateSlice';
 
 const CircularChartIncomes: React.FC = () => {
-  const incomesData = useSelector(selectIncomes);
+  const incomesData = useSelector(selectIncomesByCategory);
   const incomesDataNames = useSelector(selectIncomesNamesForCircular);
 
   const chartData = {

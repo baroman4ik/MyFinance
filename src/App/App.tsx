@@ -9,6 +9,8 @@ import {useSelector} from "react-redux";
 import {selectDiff, selectExpense, selectIncomes} from "../Widgets/Calculate/CalculateSlice";
 import CircularChartIncomes from "../Features/CircularChartIncomes/CircularChartIncomes";
 import CircularChartExpenses from "../Features/CircularChartExpenses/CircularChartExpenses";
+import Accounts from "../Features/Accounts/Accounts";
+import Navigation from "../Entities/Navigation/Navigation";
 
 function App() {
   const diff = useSelector(selectDiff);
@@ -57,39 +59,50 @@ function App() {
     ];
     return (
         <div className="App " style={{display: 'flex', flexWrap: "wrap"}}>
-            <div className="chart-wrapper">
-              <div style={{display: "flex", justifyContent: "space-between", width: "90%"}}> <Select
-                label='Что отобразить'
-                value={seriesType}
-                onChange={(value) => setSeriesType(value as SeriesType)}
-                data={data}
-              />
-                <Select
-                  label='Промежуток времени'
-                  value={timePeriod}
-                  onChange={(value) => setTimePeriod(value as TimePeriod)}
-                  data={periods}
-                /></div>
+          <Navigation/>
+            <div className="page-wrapper">
+              <div className="chart-wrapper">
+                <div style={{display: "flex", justifyContent: "space-between", width: "90%"}}> <Select
+                  label='Что отобразить'
+                  value={seriesType}
+                  onChange={(value) => setSeriesType(value as SeriesType)}
+                  data={data}
+                />
+                  <Select
+                    label='Промежуток времени'
+                    value={timePeriod}
+                    onChange={(value) => setTimePeriod(value as TimePeriod)}
+                    data={periods}
+                  /></div>
 
                 <ExpensesChart seriesType={seriesType} timePeriod={timePeriod}/>
-              <h2>{total()}</h2>
-            </div>
-            <div className="chart-wrapper">
+                <h2>{total()}</h2>
+              </div>
+              <div className="chart-wrapper">
                 <Calculate/>
-            </div>
-            <div className="chart-wrapper">
+              </div>
+              <div className="chart-wrapper">
                 <TransactionsList/>
 
-            </div>
-          <div className="chart-wrapper">
+              </div>
+
+              <div className="chart-wrapper">
+                <Accounts/>
+
+              </div>
+              <div className="chart-wrapper">
                 <CircularChart/>
-          </div>
-          <div className="chart-wrapper">
-            <CircularChartIncomes/>
-          </div>
-          <div className="chart-wrapper">
-            <CircularChartExpenses/>
-          </div>
+              </div>
+              <div className="chart-wrapper">
+                <CircularChartIncomes/>
+              </div>
+              <div className="chart-wrapper">
+                <CircularChartExpenses/>
+              </div>
+            </div>
+
+
+          {/*<CardForm/>*/}
 
 
         </div>

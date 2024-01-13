@@ -12,7 +12,7 @@
     width: 260px !important;
 }
 
-.mantine-Input-wrapper input {
+.mantine-Input-wrapper input, .mantine-Input-wrapper button {
     border-radius: 30px;
     height: 40px;
 }
