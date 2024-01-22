@@ -11,9 +11,7 @@ import './TransactionsStyles.css'
 const TransactionsList: React.FC = () => {
     const dispatch = useDispatch();
     const transactions = useSelector(selectTransactions);
-    console.log(transactions)
     const handleDelete = (transaction: Transaction) => {
-        console.log(transaction)
         transaction.type === "Доход" ?
         dispatch(deleteIncome(transaction.id)) :
         dispatch(deleteExpense(transaction.id))
