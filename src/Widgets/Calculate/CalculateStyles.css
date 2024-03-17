@@ -3,16 +3,16 @@
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     width: 300px;
     height: max-content;
 }
 
 .mantine-Input-wrapper {
-    width: 260px !important;
+    width: 230px !important;
 }
 
 .mantine-Input-wrapper input, .mantine-Input-wrapper button {
-    border-radius: 30px;
+    border-radius: 20px;
     height: 40px;
 }

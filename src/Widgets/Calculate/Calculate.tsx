@@ -1,10 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {addExpense, addIncome, selectAccountsForCalculate, Transaction, TransTypes} from './CalculateSlice';
+import {
+  addExpense,
+  addIncome,
+  clearFields,
+  selectFields,
+  setActiveCard,
+  setAmount,
+  setCategory,
+  setDate,
+  setName,
+  setType,
+  Transaction,
+  TransTypes
+} from './CalculateSlice';
 import {Button, SegmentedControl, Select, TextInput} from '@mantine/core';
 import {nanoid} from '@reduxjs/toolkit'
 import {DatePickerInput} from "@mantine/dates";
 import './CalculateStyles.css'
+import {selectAccountsForCalculate} from "../Accounts/AccountsSlice";
 
 export const incomeCategories: { label: string; value: string }[] = [
   {label: 'Зарплата', value: 'salary'},
@@ -45,18 +59,13 @@ const FinanceForm: React.FC = () => {
   const dispatch = useDispatch();
 
   const accounts = useSelector(selectAccountsForCalculate);
+  const {type, activeCard, name, date, amount, category} = useSelector(selectFields);
 
-  const [type, setType] = useState<TransTypes>("Доход");
-  const [activeCard, setActiveCard] = useState<any>(accounts[0].value);
-  const [name, setName] = useState('');
-  const [date, setDate] = useState<Date | null>(new Date());
-  const [amount, setAmount] = useState('');
 
   const activeCategories = type === "Доход" ? incomeCategories : expenseCategories;
-  const [category, setCategory] = useState(activeCategories[0].value);
 
   useEffect(() => {
-    setCategory(activeCategories[0].value)
+    dispatch(setCategory(activeCategories[0].value))
   }, [type])
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -77,82 +86,76 @@ const FinanceForm: React.FC = () => {
     } else {
       dispatch(addExpense(financeItem));
     }
-
-    setName('');
-    setCategory(activeCategories[0].value);
-    setDate(new Date());
-    setAmount('');
+    dispatch(clearFields())
+    dispatch(setCategory(activeCategories[0].value))
   };
 
   return (
     <form onSubmit={handleSubmit} className="calculate_form">
-      <div className="base-box">
 
 
-        <SegmentedControl
-          aria-placeholder="Укажите тип операции"
-          onChange={(event: "Расход" | "Доход") => setType(event)}
-          defaultValue={'Доход'}
-          data={['Доход', 'Расход']}
-          radius="lg"
-        />
+      <SegmentedControl
+        aria-placeholder="Укажите тип операции"
+        onChange={(event: TransTypes) => dispatch(setType(event))}
+        defaultValue={'Доход'}
+        data={['Доход', 'Расход']}
+        radius="lg"
+        size="sm"
+      />
 
-        <Select
-          className="calculate_element"
-          required
-          label="Категория"
-          placeholder="Укажите категорию операции"
-          data={activeCategories}
-          value={category}
-          onChange={(value: any) => setCategory(value)}
-        />
+      <Select
+        className="calculate_element"
+        required
+        label="Категория"
+        placeholder="Укажите категорию операции"
+        data={activeCategories}
+        value={category}
+        onChange={(value: any) => dispatch(setCategory(value))}
+      />
 
-        <Select
-          className="calculate_element"
-          required
-          label="Счёт"
-          placeholder="Выберите счёт"
-          data={accounts}
-          value={activeCard}
-          onChange={(value: any) => setActiveCard(value)}
-        />
+      <Select
+        className="calculate_element"
+        required
+        label="Счёт"
+        placeholder="Выберите счёт"
+        data={accounts}
+        value={activeCard}
+        onChange={(value: any) => dispatch(setActiveCard(value))}
+      />
 
-        <TextInput
-          className="calculate_element"
-          required
-          label="Сумма"
-          type="number"
-          placeholder="Введите сумму операции"
-          min={0}
-          step={1}
-          value={amount}
-          defaultValue={0}
-          onChange={(event) => setAmount(event.currentTarget.value)}
-        />
+      <TextInput
+        className="calculate_element"
+        required
+        label="Сумма"
+        type="number"
+        placeholder="Введите сумму операции"
+        min={1}
+        step={1}
+        value={amount}
+        defaultValue={0}
+        onChange={(event) => dispatch(setAmount(event.currentTarget.value))}
+      />
 
-        <TextInput
-          className="calculate_element"
-          required
-          label="Название"
-          placeholder="Введите название операции"
-          value={name}
-          onChange={(event) => setName(event.currentTarget.value)}
-        />
+      <TextInput
+        className="calculate_element"
+        required
+        label="Название"
+        placeholder="Введите название операции"
+        value={name}
+        onChange={(event) => dispatch(setName(event.currentTarget.value))}
+      />
 
 
-        <DatePickerInput
-          className="calculate_element"
-          label="Дата операции"
-          required
-          aria-placeholder="Введите дату операции"
-          contextMenu="Date"
-          value={date}
-          valueFormat="DD MMMM YYYY"
-          onChange={(value: Date) => setDate(value as Date)}
-        />
-      </div>
-
-      {/* eslint-disable-next-line react/jsx-no-undef */}
+      <DatePickerInput
+        className="calculate_element"
+        label="Дата операции"
+        required
+        aria-placeholder="Введите дату операции"
+        contextMenu="Date"
+        value={date}
+        valueFormat="DD MMMM YYYY"
+        onChange={(value: Date) => dispatch(setDate(value as Date))}
+      />
 
 
       <Button
@@ -162,7 +165,7 @@ const FinanceForm: React.FC = () => {
         color="teal"
         disabled={!name || !category || !date || !amount}
       >
-        Добавить
+        Добавить операцию
       </Button>
     </form>
   );

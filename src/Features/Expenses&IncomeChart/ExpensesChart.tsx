@@ -6,6 +6,7 @@ import {
   selectExpensePerGroup,
   selectGroupByValue,
   selectIncomePerGroup,
+  selectSeriesType,
   selectTransactions,
   tGroupBy,
   Transaction
@@ -25,13 +26,15 @@ export type ChartData = {
   category?: string;
 };
 
-const ExpensesChart: React.FC<ExpensesChartProps> = ({seriesType = 'expenses'}) => {
+const ExpensesChart: React.FC<ExpensesChartProps> = () => {
   const expensesData = useSelector(selectExpensePerGroup);
   const incomeData = useSelector(selectIncomePerGroup);
   const transactions = useSelector(selectTransactions);
   const diff = useSelector(selectDiff);
   const timeGroup: tGroupBy = useSelector(selectGroupByValue);
+  const seriesType: SeriesType = useSelector(selectSeriesType);
   // const expensesDataPerDay = useSelector(selectExpensePerDay);
+
 
   // const currExpense =
 
@@ -237,7 +240,7 @@ const ExpensesChart: React.FC<ExpensesChartProps> = ({seriesType = 'expenses'}) 
       options={getChartOptions()}
       series={getSeries()}
       type="bar"
-      width={710}
+      width={600}
       height={340}
     />
   );

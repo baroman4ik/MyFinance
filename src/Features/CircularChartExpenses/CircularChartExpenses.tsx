@@ -1,9 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
-import { selectExpenseByCategory,
-  selectExpenseNamesForCircular,
-} from '../../Widgets/Calculate/CalculateSlice';
+import {selectExpenseByCategory, selectExpenseNamesForCircular,} from '../../Widgets/Calculate/CalculateSlice';
 
 const CircularChartExpenses: React.FC = () => {
   const expenseData = useSelector(selectExpenseByCategory);
@@ -20,7 +18,7 @@ const CircularChartExpenses: React.FC = () => {
     <div>
       Круговая диаграмма расходов по категориям
 
-      <ReactApexChart className="asd" options={chartData.options} series={chartData.series} type="pie" width="300" />
+      <ReactApexChart options={chartData.options} series={chartData.series} type="pie" width="380" height="200"/>
     </div>
   );
 };
