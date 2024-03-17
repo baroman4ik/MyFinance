@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/MyFinance/static/css/main.30df47e3.css",
+    "main.js": "/MyFinance/static/js/main.97245b76.js",
+    "static/media/calendar-svgrepo-com.svg": "/MyFinance/static/media/calendar-svgrepo-com.d91db45649a0805b35faa580ce2f8d60.svg",
+    "static/media/money-recive-svgrepo-com.svg": "/MyFinance/static/media/money-recive-svgrepo-com.393b8c0a1615e95db118c4a26aefbfe8.svg",
+    "static/media/money-send-svgrepo-com.svg": "/MyFinance/static/media/money-send-svgrepo-com.038f8c6e8abe5590f7ddfa40c7a0abc1.svg",
+    "static/media/category-2-svgrepo-com (1).svg": "/MyFinance/static/media/category-2-svgrepo-com (1).e31ed77a494604765a221fc8a60f4fad.svg",
+    "static/media/card-add-svgrepo-com.svg": "/MyFinance/static/media/card-add-svgrepo-com.ee442d7c71bcc2c59e3d15a91b5624e8.svg",
+    "static/media/card-svgrepo-com.svg": "/MyFinance/static/media/card-svgrepo-com.a426cfa0cad4204c317d7bfeebfca020.svg",
+    "index.html": "/MyFinance/index.html",
+    "static/media/ticket-svgrepo-com.svg": "/MyFinance/static/media/ticket-svgrepo-com.eae45d2f45d4e3e7c6b4b6582c2a1816.svg",
+    "main.30df47e3.css.map": "/MyFinance/static/css/main.30df47e3.css.map",
+    "main.97245b76.js.map": "/MyFinance/static/js/main.97245b76.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.30df47e3.css",
+    "static/js/main.97245b76.js"
+  ]
+}
