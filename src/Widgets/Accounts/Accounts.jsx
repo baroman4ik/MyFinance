@@ -8,7 +8,7 @@ import {OperationsIcon} from "../../Shared/Icons/OperationsIcon";
 import AddCardIcon from "../../Shared/Icons/card-add-svgrepo-com.svg"
 import {selectAccounts, toggleAddAccountModal} from "./AccountsSlice";
 
-const Accounts = () => {
+const Accounts = ({className = ''}) => {
   const accounts = useSelector(selectAccounts);
   const accountsBalance = useSelector(AccountsBalanceSelector);
   const accRef = useRef(null)
@@ -36,7 +36,6 @@ const Accounts = () => {
             color="white"
             variant="light"
             onClick={() => handleOpen()}
-
           >
             <Image
               width={24}
@@ -47,12 +46,12 @@ const Accounts = () => {
         </Tooltip>
       </div>
 
-      <div className="btns_container">
+      <div className={"btns_container" + " " + className}>
         {<button onClick={() => score > 0 && setScore(prev => prev - 1)} className="prev">ᐸ</button>}
         <button onClick={() => score < accounts.length - 1 && setScore(prev => prev + 1)} className="next">ᐳ</button>
       </div>
 
-      <div className="accounts_slider" ref={accRef}>
+      <div className={"accounts_slider" + " " + className} ref={accRef}>
         <div
           className="accounts_container"
           style={{transform: `translateX(${-score * accWidth}px)`}}
@@ -70,14 +69,14 @@ const Accounts = () => {
                     color="red"
                     className="account_btn"
                     variant="filled"
-                    leftIcon={<OperationsIcon size={16}/>}
+                    leftIcon={<OperationsIcon size={14}/>}
                     // onClick={() => onClickEdit(account)}
                   >
                     Операции
                   </Button>
                   <Button
                     className="account_btn"
-                    leftIcon={<AddItemIcon size={16}/>}
+                    leftIcon={<AddItemIcon size={14}/>}
                     variant="filled"
                     // onClick={() => handleDelete(account)}
                   >

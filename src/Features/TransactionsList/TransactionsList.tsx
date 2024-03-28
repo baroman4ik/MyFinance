@@ -27,6 +27,15 @@ import MoneyOutIcon from '../../Shared/Icons/money-send-svgrepo-com.svg';
 import {expenseCategories, incomeCategories} from "../../Widgets/Calculate/Calculate";
 import {selectAccounts} from "../../Widgets/Accounts/AccountsSlice";
 
+
+export function formatDate(date: Date) {
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  return `${day < 10 ? '0' + day : day}.${month < 10 ? '0' + month : month}.${year}`;
+}
+
 const TransactionsList: React.FC = () => {
   const dispatch = useDispatch();
   const transactions = useSelector(selectTransactions);
@@ -35,13 +44,6 @@ const TransactionsList: React.FC = () => {
 
   console.log(transactions)
 
-  function formatDate(date: Date) {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-
-    return `${day < 10 ? '0' + day : day}.${month < 10 ? '0' + month : month}.${year}`;
-  }
 
   const handleDelete = (transaction: Transaction) => {
     transaction.type === "Доход" ?
@@ -123,7 +125,7 @@ const TransactionsList: React.FC = () => {
               </Text>
 
             </div>
-            <Group>
+            <Group className="trans_actions">
               <Tooltip label="Изменить операцию" color="teal">
                 <ActionIcon
                   color="white"

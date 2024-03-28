@@ -6,12 +6,14 @@ import {
   selectExpensePerGroup,
   selectGroupByValue,
   selectIncomePerGroup,
+  selectPeriod,
   selectSeriesType,
   selectTransactions,
   tGroupBy,
   Transaction
 } from '../../Widgets/Calculate/CalculateSlice';
 import {useSelector} from 'react-redux';
+import {formatDate} from "../TransactionsList/TransactionsList";
 
 export type SeriesType = 'diff' | 'expenses' | 'income' | 'duo';
 
@@ -32,6 +34,7 @@ const ExpensesChart: React.FC<ExpensesChartProps> = () => {
   const transactions = useSelector(selectTransactions);
   const diff = useSelector(selectDiff);
   const timeGroup: tGroupBy = useSelector(selectGroupByValue);
+  const period = useSelector(selectPeriod);
   const seriesType: SeriesType = useSelector(selectSeriesType);
   // const expensesDataPerDay = useSelector(selectExpensePerDay);
 
@@ -131,6 +134,18 @@ const ExpensesChart: React.FC<ExpensesChartProps> = () => {
   }
 
 
+  const chartText = () => {
+    console.log(period)
+    if (seriesType === "diff")
+      return `Разница за ${period[1] ? formatDate(period[0] || new Date()) + " - " + formatDate(period[1] || new Date()) : "всё время"}`
+    else if (seriesType === "expenses") {
+      return `Расходы за ${period[1] ? formatDate(period[0] || new Date()) + " - " + formatDate(period[1] || new Date()) : "всё время"}`
+    } else if (seriesType === "income") {
+      return `Доходы за ${period[1] ? formatDate(period[0] || new Date()) + " - " + formatDate(period[1] || new Date()) : "всё время"}`
+    }
+  }
+
+
   const getChartOptions = (): ApexCharts.ApexOptions => {
     return {
 
@@ -211,10 +226,10 @@ const ExpensesChart: React.FC<ExpensesChartProps> = () => {
         },
       },
       title: {
-        text: seriesType === 'diff' ? 'Разница между доходами и расходами' : `Доходы и расходы за ${timeGroup}`,
+        text: chartText(),
         align: 'left',
         style: {
-          fontSize: '20px',
+          fontSize: window.innerWidth > 525 ? '20px' : '10px',
           fontWeight: 'bold',
           fontFamily: undefined,
           color: '#04243a',
@@ -234,14 +249,15 @@ const ExpensesChart: React.FC<ExpensesChartProps> = () => {
     };
   };
 
+  console.log(window.innerWidth)
+
 
   return (
     <ReactApexChart
       options={getChartOptions()}
       series={getSeries()}
       type="bar"
-      width={600}
-      height={340}
+      className="main_chat"
     />
   );
 

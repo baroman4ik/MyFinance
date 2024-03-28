@@ -20,37 +20,6 @@ body {
     overflow-x: hidden;
 }
 
-
-.aside-block {
-    width: 90%;
-    border-radius: 30px;
-    box-shadow: 1px 1px 8px rgba(173, 170, 170, 0.43);
-    background-color: white;
-    position: relative;
-    color: black;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-
-}
-
-.aside-accounts {
-    width: 90%;
-    border-radius: 20px;
-    box-shadow: 1px 1px 8px rgba(173, 170, 170, 0.43);
-    background-color: white;
-    position: relative;
-    color: black;
-    height: 270px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 .main-block {
     width: 1fr;
     padding: 10px;
@@ -113,7 +82,7 @@ body {
 }
 
 .circular-chart {
-    height: 340px;
+    width: 340px !important;
 }
 
 
@@ -182,19 +151,53 @@ main .main_container {
     gap: 10px;
     /*flex-flow: row wrap;*/
     width: 100%;
-    grid-template-areas: "gen_chart gen_chart circular" "gen_chart gen_chart circular_expenses" "transactions_t transactions_t transactions_t" "transactions_t transactions_t transactions_t";
+    grid-template-areas: "gen_chart gen_chart circular" "gen_chart gen_chart circular_expenses" "transactions_t transactions_t transactions_t";
 }
 
-aside {
-    padding-top: 20px;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-start;
-    align-items: center;
-    flex-flow: column wrap;
-    width: auto;
-    background: #eef5ff;
-    overflow: hidden;
+
+.main_chat {
+    width: 600px;
+    height: 340px;
+}
+
+.mantine-Modal-inner {
+    padding-left: 0 !important;
+}
+
+
+@media screen and (max-width: 1255px) {
+
+    .page-wrapper {
+        display: block;
+    }
+
+    main {
+        width: calc(100vw - 20px);
+        padding: 10px;
+        height: max-content;
+    }
+
+    main .main_container {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "gen_chart gen_chart" "gen_chart gen_chart" "circular circular_expenses" "transactions_t transactions_t" "transactions_t transactions_t" "transactions_t transactions_t";
+
+    }
+
+    .main-block_small {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+
+    .main-block_double {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    .main-block_full {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -210,4 +213,31 @@ aside {
         font-size: 16px;
         padding: 10px 16px;
     }
+
+    .main_chat {
+        width: 500px;
+        height: 250px;
+        margin-top: 30px;
+    }
+
+    main .main_container {
+        grid-template-columns: 2fr;
+        grid-template-rows: 2fr;
+        grid-template-areas: "gen_chart" "gen_chart" "circular" "circular_expenses" "transactions_t transactions_t" "transactions_t transactions_t" "transactions_t transactions_t";
+
+    }
+
+    .main-block_small {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
 }
+
+@media screen and (max-width: 520px) {
+    .main_chat {
+        width: 300px;
+        height: 200px;
+        margin-top: 30px;
+    }
+}
+

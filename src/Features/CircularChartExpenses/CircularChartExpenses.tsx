@@ -18,7 +18,8 @@ const CircularChartExpenses: React.FC = () => {
     <div>
       Круговая диаграмма расходов по категориям
 
-      <ReactApexChart options={chartData.options} series={chartData.series} type="pie" width="380" height="200"/>
+      <ReactApexChart options={chartData.options} series={chartData.series} type="pie" className="circular-chart"
+                      height="200"/>
     </div>
   );
 };

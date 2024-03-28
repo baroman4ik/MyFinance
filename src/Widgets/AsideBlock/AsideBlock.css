@@ -1,0 +1,53 @@
+.aside-block {
+    width: 90%;
+    border-radius: 30px;
+    box-shadow: 1px 1px 8px rgba(173, 170, 170, 0.43);
+    background-color: white;
+    position: relative;
+    color: black;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+
+}
+
+aside {
+    padding-top: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    flex-flow: column wrap;
+    width: auto;
+    background: #eef5ff;
+    overflow: hidden;
+}
+
+.aside-accounts {
+    width: 90%;
+    border-radius: 20px;
+    box-shadow: 1px 1px 8px rgba(173, 170, 170, 0.43);
+    background-color: white;
+    position: relative;
+    color: black;
+    height: 270px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@media screen and (max-width: 1255px) {
+    aside {
+        display: none;
+    }
+
+    aside.mobile {
+        display: flex;
+        height: 100vh;
+    }
+}

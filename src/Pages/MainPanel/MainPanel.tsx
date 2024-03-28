@@ -1,7 +1,5 @@
 import React from 'react';
-import Calculate from "../../Widgets/Calculate/Calculate";
 import {ExpensesChart} from "../../Features/Expenses&IncomeChart";
-import Accounts from "../../Widgets/Accounts/Accounts";
 import CircularChart from "../../Features/CircularChart/CircularChart";
 import {SeriesType} from "../../Features/Expenses&IncomeChart/ExpensesChart";
 import {useSelector} from "react-redux";
@@ -11,6 +9,7 @@ import CircularChartExpenses from "../../Features/CircularChartExpenses/Circular
 import {Filters} from "../../Features/Filters";
 import CircularChartIncomes from "../../Features/CircularChartIncomes/CircularChartIncomes";
 import AccountModal from "../../Features/AccountModal/AccountModal";
+import AsideBlock from "../../Widgets/AsideBlock/AsideBlock";
 
 const MainPanel = () => {
   const diff = useSelector(selectDiff);
@@ -75,15 +74,7 @@ const MainPanel = () => {
           {/*</div>*/}
         </div>
       </main>
-      <aside>
-        <Accounts/>
-
-        <div className="aside-block">
-          <Calculate/>
-
-        </div>
-      </aside>
-
+      <AsideBlock/>
 
     </div>
 

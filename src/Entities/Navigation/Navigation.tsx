@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Navigation.css"
-import {TonConnectButton} from "@tonconnect/ui-react";
+import BurgerMenu from "../../Features/BurgerMenu/BurgerMenu";
 
 const Navigation = () => (
   <nav>
@@ -8,7 +8,9 @@ const Navigation = () => (
     <a href="/#" className="nav-link">Аналитика</a>
     <a href="/#" className="nav-link">Операции</a>
     <a href="/#" className="nav-link">Настройки</a>
-    <TonConnectButton/>
+    <BurgerMenu/>
+
+    {/*<TonConnectButton/>*/}
   </nav>
 );
 

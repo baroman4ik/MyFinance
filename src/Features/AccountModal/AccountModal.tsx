@@ -8,6 +8,7 @@ import {
   setAccountField,
   toggleAddAccountModal
 } from "../../Widgets/Accounts/AccountsSlice";
+import {AddItemIcon} from "../../Shared/Icons/AddItemIcon";
 
 const AddAccountModal: React.FC = () => {
   const dispatch = useDispatch();
@@ -20,13 +21,10 @@ const AddAccountModal: React.FC = () => {
   };
 
   const handleAddAccount = () => {
-    // Проверка на ошибки перед добавлением счета
     if (!validateFields()) {
-      // Если есть ошибки, выходим из функции
       return;
     }
 
-    // Отправляем данные нового счета в хранилище
     // @ts-ignore
     dispatch(addAccount(fields));
     handleClose();
@@ -35,47 +33,53 @@ const AddAccountModal: React.FC = () => {
   const validateFields = () => {
     const newErrors: { [key: string]: string } = {};
 
-    // Валидация последних четырех цифр номера карты
     if (!/^\d{4}$/.test(fields.number)) {
       newErrors.number = 'Введите последние четыре цифры номера карты';
     }
 
-    // Валидация срока действия карты в формате MM/YY
     if (!/^\d{2}\/\d{2}$/.test(fields.date)) {
       newErrors.date = 'Введите срок действия карты в формате MM/YY';
     }
 
-    // Валидация остатка баланса (может быть только положительным числом)
     if (fields.prevBalance <= 0) {
       newErrors.prevBalance = 'Остаток баланса должен быть положительным числом';
     }
 
-    // Обновляем состояние ошибок
     setErrors(newErrors);
 
-    // Возвращаем true, если ошибок нет
     return Object.keys(newErrors).length === 0;
   };
   if (!showAddAccountModal) return <></>
 
   return (
-    <Modal opened={true} onClose={handleClose} title="Добавить новый счет">
+    <Modal size={400} radius="xl" padding={30} opened={true} onClose={handleClose} title="Добавить новый счет" centered>
       <TextInput
+        type="number"
         label="Последние четыре цифры номера карты"
         value={fields.number}
-        onChange={(event) => dispatch(setAccountField({field: 'number', value: event.currentTarget.value}))}
+        onChange={(event) => event.target.value.length < 5 && dispatch(setAccountField({
+          field: 'number',
+          value: event.currentTarget.value
+        }))}
         error={errors.number}
+        max={4}
       />
       <TextInput
         label="Срок действия карты"
         value={fields.date}
-        onChange={(event) => dispatch(setAccountField({field: 'date', value: event.currentTarget.value}))}
+        onChange={(event) => event.target.value.length < 6 && dispatch(setAccountField({
+          field: 'date',
+          value: event.currentTarget.value
+        }))}
         error={errors.date}
       />
       <TextInput
         label="Название карты"
         value={fields.name}
-        onChange={(event) => dispatch(setAccountField({field: 'name', value: event.currentTarget.value}))}
+        onChange={(event) => event.target.value.length < 30 && dispatch(setAccountField({
+          field: 'name',
+          value: event.currentTarget.value
+        }))}
       />
       <TextInput
         label="Остаток баланса"
@@ -87,7 +91,8 @@ const AddAccountModal: React.FC = () => {
         }))}
         error={errors.prevBalance}
       />
-      <Button onClick={handleAddAccount}>Добавить счет</Button>
+      <br/>
+      <Button leftIcon={<AddItemIcon fill="white" size={16}/>} onClick={handleAddAccount}>Добавить счет</Button>
     </Modal>
   );
 };
