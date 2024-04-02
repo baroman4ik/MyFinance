@@ -1,13 +1,14 @@
 import React from 'react';
 import "./Navigation.css"
 import BurgerMenu from "../../Features/BurgerMenu/BurgerMenu";
+import {Link} from "react-router-dom";
 
 const Navigation = () => (
   <nav>
-    <a href="/#" className="nav-link">Счета</a>
-    <a href="/#" className="nav-link">Аналитика</a>
-    <a href="/#" className="nav-link">Операции</a>
-    <a href="/#" className="nav-link">Настройки</a>
+    <Link to="/" className="nav-link">Счета</Link>
+    <Link to="/" className="nav-link">Аналитика</Link>
+    <Link to="/" className="nav-link">Операции</Link>
+    <Link to="/" className="nav-link">Настройки</Link>
     <BurgerMenu/>
 
     {/*<TonConnectButton/>*/}

@@ -41,7 +41,6 @@ const ExpensesChart: React.FC<ExpensesChartProps> = () => {
 
   // const currExpense =
 
-  // console.log(expensesDataPerDay)
 
   const selectDataByTimePeriod = createSelector(
     (transactions: Transaction[], timePeriod: tGroupBy) => {
@@ -135,7 +134,6 @@ const ExpensesChart: React.FC<ExpensesChartProps> = () => {
 
 
   const chartText = () => {
-    console.log(period)
     if (seriesType === "diff")
       return `Разница за ${period[1] ? formatDate(period[0] || new Date()) + " - " + formatDate(period[1] || new Date()) : "всё время"}`
     else if (seriesType === "expenses") {
@@ -248,9 +246,6 @@ const ExpensesChart: React.FC<ExpensesChartProps> = () => {
 
     };
   };
-
-  console.log(window.innerWidth)
-
 
   return (
     <ReactApexChart

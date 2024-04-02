@@ -1,7 +1,7 @@
 import {createSelector, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {expenseCategories, incomeCategories} from './Calculate';
 import {SeriesType} from "../../Features/Expenses&IncomeChart/ExpensesChart";
-import {AccountsState} from "../Accounts/AccountsSlice";
+import {Account, AccountsState} from "../Accounts/AccountsSlice";
 
 interface FinanceState {
   incomes: Transaction[];
@@ -50,208 +50,8 @@ const initialFields = (): Fields => ({
   category: ''
 })
 const initialState: FinanceState = {
-  incomes: [
-    {
-      id: "1",
-      name: "Зарплата ноябрь",
-      category: "salary",
-      type: "Доход",
-      date: "2023-11-15T18:00:43.057Z",
-      amount: 4000,
-      account: "2"
-    },
-    {
-      id: "2",
-      name: "Дивиденды по инвестициям",
-      category: "dividends",
-      type: "Доход",
-      date: "2024-03-20T19:00:43.057Z",
-      amount: 1500,
-      account: "1"
-    },
-    {
-      id: "3",
-      name: "Арендная плата за декабрь",
-      category: "rental",
-      type: "Доход",
-      date: "2023-12-05T20:00:43.057Z",
-      amount: 2000,
-      account: "1"
-    },
-    {
-      id: "4",
-      name: "Дивиденды по акциям",
-      category: "investments",
-      type: "Доход",
-      date: "2023-12-10T21:00:43.057Z",
-      amount: 2500,
-      account: "1"
-    },
-    {
-      id: "5",
-      name: "Фриланс-работа",
-      category: "freelance",
-      type: "Доход",
-      date: "2023-12-15T22:00:43.057Z",
-      amount: 3000,
-      account: "1"
-    },
-    {
-      id: "6",
-      name: "Работа по совместительству",
-      category: "part-time",
-      type: "Доход",
-      date: "2023-12-20T23:00:43.057Z",
-      amount: 3500,
-      account: "2"
-    },
-    {
-      id: "7",
-      name: "Годовой бонус",
-      category: "bonus",
-      type: "Доход",
-      date: "2023-12-25T00:00:43.057Z",
-      amount: 5000,
-      account: "1"
-    },
-    {
-      id: "8",
-      name: "Пенсионные накопления",
-      category: "pension",
-      type: "Доход",
-      date: "2023-12-28T01:00:43.057Z",
-      amount: 4500,
-      account: "1"
-    },
-    {
-      id: "9",
-      name: "Подарок от родственников",
-      category: "gift",
-      type: "Доход",
-      date: "2023-12-05T02:00:43.057Z",
-      amount: 6000,
-      account: "1"
-    },
-    {
-      id: "10",
-      name: "Дополнительная зарплата декабрь",
-      category: "salary",
-      type: "Доход",
-      date: "2023-12-10T03:00:43.057Z",
-      amount: 5500,
-      account: "1"
-    },
-    {
-      id: "11",
-      name: "Бонус за результаты года",
-      category: "bonus",
-      type: "Доход",
-      date: "2023-12-15T04:00:43.057Z",
-      amount: 6000,
-      account: "1"
-    },
-  ],
-  expenses: [
-    {
-      id: "12",
-      name: "Покупки в магазине",
-      category: "groceries",
-      type: "Расход",
-      date: "2023-11-18T18:00:43.057Z",
-      amount: 1200,
-      account: "1"
-    },
-    {
-      id: "13",
-      name: "Посещение ресторана",
-      category: "eating-out",
-      type: "Расход",
-      date: "2023-11-25T19:00:43.057Z",
-      amount: 1100,
-      account: "1"
-    },
-    {
-      id: "14",
-      name: "Аренда жилья за декабрь",
-      category: "rent",
-      type: "Расход",
-      date: "2023-12-08T20:00:43.057Z",
-      amount: 1000,
-      account: "2"
-    },
-    {
-      id: "15",
-      name: "Ипотека",
-      category: "mortgage",
-      type: "Расход",
-      date: "2023-12-15T21:00:43.057Z",
-      amount: 900,
-      account: "1"
-    },
-    {
-      id: "16",
-      name: "Коммунальные услуги",
-      category: "utilities",
-      type: "Расход",
-      date: "2023-12-22T22:00:43.057Z",
-      amount: 800,
-      account: "1"
-    },
-    {
-      id: "17",
-      name: "Телефон",
-      category: "phone",
-      type: "Расход",
-      date: "2023-12-29T23:00:43.057Z",
-      amount: 700,
-      account: "1"
-    },
-    {
-      id: "18",
-      name: "Подписка на интернет",
-      category: "internet",
-      type: "Расход",
-      date: "2023-12-10T00:00:43.057Z",
-      amount: 600,
-      account: "1"
-    },
-    {
-      id: "19",
-      name: "Общественный транспорт",
-      category: "transportation",
-      type: "Расход",
-      date: "2023-12-15T01:00:43.057Z",
-      amount: 500,
-      account: "1"
-    },
-    {
-      id: "20",
-      name: "Бензин",
-      category: "gas",
-      type: "Расход",
-      date: "2024-03-20T02:00:43.057Z",
-      amount: 400,
-      account: "1"
-    },
-    {
-      id: "21",
-      name: "Платеж по автокредиту",
-      category: "car-payment",
-      type: "Расход",
-      date: "2023-12-25T03:00:43.057Z",
-      amount: 300,
-      account: "1"
-    },
-    {
-      id: "22",
-      name: "Развлечения на новый год",
-      category: "entertainment",
-      type: "Расход",
-      date: "2023-12-31T04:00:43.057Z",
-      amount: 200,
-      account: "1"
-    },
-  ],
+  incomes: [],
+  expenses: [],
   editingTransaction: null,
   groupBy: "day",
   period: [null, null],
@@ -265,16 +65,40 @@ const financeSlice = createSlice({
   initialState,
   reducers: {
     addIncome: (state, action: PayloadAction<Transaction>) => {
-      state.incomes = [...state.incomes, action.payload];
+      console.log(action)
+      if (!state.incomes.find(el => el.id === action.payload.id)) {
+        const newArr = [...state.incomes, action.payload]
+        localStorage.setItem("income", JSON.stringify(newArr))
+        state.incomes = newArr;
+
+      }
     },
     addExpense: (state, action: PayloadAction<Transaction>) => {
-      state.expenses = [...state.expenses, action.payload];
+      if (!state.expenses.find(el => el.id === action.payload.id)) {
+        const newArr = [...state.expenses, action.payload]
+        localStorage.setItem("expense", JSON.stringify(newArr))
+        state.expenses = newArr;
+      }
     },
     deleteIncome: (state, action: PayloadAction<string>) => {
-      state.incomes = state.incomes.filter((el) => el.id !== action.payload);
+      const newArr = state.incomes.filter((el) => el.id !== action.payload)
+      localStorage.setItem("income", JSON.stringify(newArr))
+      state.incomes = newArr;
     },
     deleteExpense: (state, action: PayloadAction<string>) => {
-      state.expenses = state.expenses.filter((el) => el.id !== action.payload);
+      const newArr = state.expenses.filter((el) => el.id !== action.payload)
+      localStorage.setItem("expense", JSON.stringify(newArr))
+      state.expenses = newArr;
+    },
+    deleteByAccount: (state, action: PayloadAction<Account>) => {
+      const newExp = state.expenses.filter((el) => el.account !== action.payload.id)
+      localStorage.setItem("expense", JSON.stringify(newExp))
+      state.expenses = newExp;
+
+
+      const newArr = state.incomes.filter((el) => el.account !== action.payload.id)
+      localStorage.setItem("income", JSON.stringify(newArr))
+      state.incomes = newArr;
     },
     setGroup: (state, action: PayloadAction<tGroupBy>) => {
       state.groupBy = action.payload;
@@ -293,6 +117,7 @@ const financeSlice = createSlice({
       state.fields.name = action.payload;
     },
     setActiveCard: (state, action: PayloadAction<string>) => {
+      console.log(action.payload)
       state.fields.activeCard = action.payload;
     },
     setType: (state, action: PayloadAction<TransTypes>) => {
@@ -337,7 +162,8 @@ export const {
   setType,
   setCategory,
   clearFields,
-  editTransaction
+  editTransaction,
+  deleteByAccount
 } = financeSlice.actions;
 
 // Оптимизация selectTransactions с использованием деструктуризации
@@ -427,6 +253,10 @@ export const AccountsBalanceSelector = createSelector(
       }
     });
 
+    console.log(incomes)
+    console.log(accounts)
+    console.log(accountBalances)
+
     return accountBalances;
   }
 );
@@ -435,7 +265,6 @@ export const AccountsBalanceSelector = createSelector(
 function filterByCategory(incomes: Transaction[], period: tPeriod): Transaction[] {
   // @ts-ignore
   if (period[1] > 1) {
-    console.log()
     const periodLengths = {
       'day': 10,
       'month': 7,
@@ -444,7 +273,6 @@ function filterByCategory(incomes: Transaction[], period: tPeriod): Transaction[
     };
     const minPer = period[0]
     const maxPer = period[1]
-    console.log()
     // @ts-ignore
 
     const newArr = incomes.filter((i) => minPer?.getTime() < Date.parse(i.date) && Date.parse(i.date) < maxPer?.getTime())

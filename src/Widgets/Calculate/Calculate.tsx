@@ -30,6 +30,8 @@ export const incomeCategories: { label: string; value: string }[] = [
   {label: 'Бонус', value: 'bonus'},
   {label: 'Пенсия', value: 'pension'},
   {label: 'Подарок', value: 'gift'},
+  {label: 'Другой доход', value: 'otherInc'},
+
 ];
 
 export const expenseCategories: { label: string; value: string }[] = [
@@ -53,10 +55,24 @@ export const expenseCategories: { label: string; value: string }[] = [
   {label: 'Хобби', value: 'hobbies'},
   {label: 'Техника', value: 'electronics'},
   {label: 'Образование', value: 'education'},
+  {label: 'Другой расход', value: 'otherExp'},
 ];
 
 const FinanceForm: React.FC = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+
+    const localIncomes = localStorage.getItem("income")
+    if (localIncomes) JSON.parse(localIncomes).forEach((el: Transaction) =>
+      dispatch(addIncome(el))
+    )
+    const localExpenses = localStorage.getItem("expense")
+    if (localExpenses) JSON.parse(localExpenses).forEach((el: Transaction) =>
+      dispatch(addExpense(el))
+    )
+
+  }, []);
 
   const accounts = useSelector(selectAccountsForCalculate);
   const {type, activeCard, name, date, amount, category} = useSelector(selectFields);

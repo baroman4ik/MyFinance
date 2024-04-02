@@ -55,6 +55,7 @@
 }
 
 .account {
+    position: relative;
     background-color: rgb(36, 37, 218);
     width: 250px;
     height: 100px;
@@ -68,7 +69,6 @@
     flex-flow: row wrap;
     color: white;
     font-size: 12px;
-    position: relative;
 }
 
 .account_btns {
@@ -154,4 +154,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.account .removeBtn {
+    position: absolute;
+    right: 15px;
+    top: 15px;
 }

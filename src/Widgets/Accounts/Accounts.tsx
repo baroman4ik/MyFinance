@@ -1,12 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {ActionIcon, Button, Image, Text, Tooltip} from "@mantine/core";
 import {useDispatch, useSelector} from "react-redux";
-import {AccountsBalanceSelector} from "../Calculate/CalculateSlice";
+import {AccountsBalanceSelector, deleteByAccount} from "../Calculate/CalculateSlice";
 import "./AccountsStyles.css"
 import {AddItemIcon} from "../../Shared/Icons/AddItemIcon";
 import {OperationsIcon} from "../../Shared/Icons/OperationsIcon";
+// @ts-ignore
 import AddCardIcon from "../../Shared/Icons/card-add-svgrepo-com.svg"
-import {selectAccounts, toggleAddAccountModal} from "./AccountsSlice";
+import {Account, addAccount, removeAccount, selectAccounts, toggleAddAccountModal} from "./AccountsSlice";
+import {RemoveItemIcon} from "../../Shared/Icons/RemoveItemIcon";
 
 const Accounts = ({className = ''}) => {
   const accounts = useSelector(selectAccounts);
@@ -15,16 +17,24 @@ const Accounts = ({className = ''}) => {
   const [accWidth, setAccWidth] = useState()
   const [score, setScore] = useState(0)
   const dispatch = useDispatch()
-  console.log(accountsBalance)
 
   useEffect(() => {
-    console.log(accWidth)
-    console.log(-score * -accWidth)
+    // @ts-ignore
     accRef.current && setAccWidth(accRef.current.clientWidth)
   }, [accRef])
 
+  useEffect(() => {
+    const localAccs = localStorage.getItem("account")
+    if (localAccs) JSON.parse(localAccs).forEach((el: Account) => dispatch(addAccount(el)))
+  }, []);
+
   const handleOpen = () => {
     dispatch(toggleAddAccountModal(true));
+  };
+
+  const handleDelete = (account: Account) => {
+    dispatch(removeAccount(account))
+    dispatch(deleteByAccount(account))
   };
 
   return (
@@ -54,22 +64,36 @@ const Accounts = ({className = ''}) => {
       <div className={"accounts_slider" + " " + className} ref={accRef}>
         <div
           className="accounts_container"
-          style={{transform: `translateX(${-score * accWidth}px)`}}
+          style={{transform: `translateX(${-score * (accWidth || 1)}px)`}}
         >
           {accounts.map((account) => (
-            <div className="account_wrapper">
-              <div className='account' key={account.id}>
+            <div className="account_wrapper" key={account.id}>
+              <div className='account'>
                 <Text className="card-name" size={"xl"}>{account.name}</Text>
+                <Tooltip label="Удалить счет" color="red">
+                  <ActionIcon
+                    className="removeBtn"
+                    color="white"
+                    variant="light"
+                    size="xs"
+                    onClick={() => handleDelete(account)}
+
+                  >
+                    <RemoveItemIcon size={12}/>
+                  </ActionIcon>
+                </Tooltip>
                 <Text
                   className="card-number">{account.number ? (<>.... {account.number.substring(15)}</>) : "     "}</Text>
                 <Text className='balance' align={"left"} size={"xl"}>{accountsBalance[account.id]} BYN</Text>
                 {account.date && <Text>{account.date}</Text>}
+
                 <div className="account_btns">
                   <Button
                     color="red"
                     className="account_btn"
                     variant="filled"
                     leftIcon={<OperationsIcon size={14}/>}
+                    disabled
                     // onClick={() => onClickEdit(account)}
                   >
                     Операции
@@ -78,6 +102,8 @@ const Accounts = ({className = ''}) => {
                     className="account_btn"
                     leftIcon={<AddItemIcon size={14}/>}
                     variant="filled"
+                    disabled
+
                     // onClick={() => handleDelete(account)}
                   >
                     Добавить

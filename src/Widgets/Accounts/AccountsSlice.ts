@@ -1,34 +1,27 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {RootState} from "../../Shared/Redux/store";
-
+import {createSlice, nanoid, PayloadAction} from '@reduxjs/toolkit';
+import {RootState} from '../../Shared/Redux/store';
 
 export interface Account {
   id: string;
   name: string;
   number: string;
   date: string;
-  prevBalance: number
+  prevBalance: number;
 }
 
 export interface AccountsState {
   accounts: Account[];
-  fields: {
-    number: string;
-    date: string;
-    name: string;
-    prevBalance: number;
-  };
+  fields: Account
   showAddAccountModal: boolean;
 }
 
-const initialFields = () => (
-  {
-    number: '',
-    date: '',
-    name: '',
-    prevBalance: 0
-  }
-)
+const initialFields = () => ({
+  number: '',
+  date: '',
+  name: '',
+  prevBalance: 0,
+  id: nanoid()
+});
 
 const initialState: AccountsState = {
   accounts: [
@@ -38,19 +31,11 @@ const initialState: AccountsState = {
       number: '',
       date: 'infinity',
       prevBalance: 200
-    },
-    {
-      id: "2",
-      name: "Карта Настарт",
-      number: '1234 4531 5433 2634',
-      date: '10.12.2036',
-      prevBalance: 1000
     }
   ],
   fields: initialFields(),
-  showAddAccountModal: false
+  showAddAccountModal: false,
 };
-
 
 export const accountsSlice = createSlice({
   name: 'accounts',
@@ -60,7 +45,17 @@ export const accountsSlice = createSlice({
       state.fields = {...state.fields, [action.payload.field]: action.payload.value};
     },
     addAccount: (state, action: PayloadAction<Account>) => {
-      state.accounts.push(action.payload);
+      if (!state.accounts.find(el => el.id === action.payload.id)) {
+        const newArr = [...state.accounts, action.payload]
+        localStorage.setItem("account", JSON.stringify(newArr))
+        state.accounts = newArr
+      }
+    },
+    removeAccount: (state, action: PayloadAction<Account>) => {
+      if (action.payload.id === "1") return state
+      const newArr = state.accounts.filter((el: Account) => el.id !== action.payload.id)
+      localStorage.setItem("account", JSON.stringify(newArr))
+      state.accounts = newArr;
     },
     toggleAddAccountModal: (state, action: PayloadAction<boolean>) => {
       state.showAddAccountModal = action.payload;
@@ -68,7 +63,7 @@ export const accountsSlice = createSlice({
     clearFields: (state) => {
       state.fields = initialFields();
     },
-  }
+  },
 });
 
 
@@ -78,7 +73,7 @@ export const selectAccountsForCalculate = (state: {
 }) => state.accounts.accounts.map(card => ({label: card.name, value: card.id}))
 
 
-export const {setAccountField, addAccount, toggleAddAccountModal} = accountsSlice.actions;
+export const {setAccountField, removeAccount, addAccount, toggleAddAccountModal} = accountsSlice.actions;
 
 export const selectAccountFields = (state: RootState) => state.accounts.fields;
 
