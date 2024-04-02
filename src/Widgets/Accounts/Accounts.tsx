@@ -84,7 +84,7 @@ const Accounts = ({className = ''}) => {
                 </Tooltip>
                 <Text
                   className="card-number">{account.number ? (<>.... {account.number.substring(15)}</>) : "     "}</Text>
-                <Text className='balance' align={"left"} size={"xl"}>{accountsBalance[account.id]} BYN</Text>
+                <Text className='balance' align={"left"} size={"xl"}>{accountsBalance[account.id] || "0"} BYN</Text>
                 {account.date && <Text>{account.date}</Text>}
 
                 <div className="account_btns">

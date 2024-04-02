@@ -29,13 +29,13 @@ const MainPanel = () => {
   const total = () => {
     if (seriesType) {
       if (seriesType === 'diff')
-        return `Остаток на балансе: ${incomeSumValue - expensesSumValue}`
+        return `Остаток на балансе: ${incomeSumValue - expensesSumValue} BYN`
       else if (seriesType === 'expenses')
-        return `Сумма расходов: ${expensesSumValue}`
+        return `Сумма расходов: ${expensesSumValue} BYN`
       else if (seriesType === 'income')
-        return `Сумма доходов: ${incomeSumValue}`
+        return `Сумма доходов: ${incomeSumValue} BYN`
       else if (seriesType === 'duo')
-        return `Расходы: ${expensesSumValue} Доходы: ${incomeSumValue}`
+        return `Расходы: ${expensesSumValue} BYN, Доходы: ${incomeSumValue} BYN`
     }
   }
 

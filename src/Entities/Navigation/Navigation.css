@@ -8,9 +8,17 @@ nav {
     gap: 20px;
 }
 
+
 nav a {
     text-decoration: none;
     color: #613dff;
     font-size: 20px;
     font-weight: 100;
+}
+
+@media screen and (max-width: 1255px) {
+    nav a {
+        display: none;
+    }
+
 }

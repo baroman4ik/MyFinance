@@ -16,7 +16,7 @@ const CircularChartIncomes: React.FC = () => {
 
   return (
     <div>
-      Круговая диаграмма доходов по категориям
+      Доходы по категориям
       <ReactApexChart options={chartData.options} series={chartData.series} type="pie" className="circular-chart"
                       height="200"/>
     </div>
